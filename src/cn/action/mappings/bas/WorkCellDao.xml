@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.bas.dao.WorkCellDao">
+	<sql id="workCellColumns">
+		a.id,
+		a.cellName,
+		a.cellNumber,
+		a.cellMaster,
+		a.cellDescription,
+		a.station_id as "workStationInfos.id",
+		c.stationName as "workStationInfos.stationName",
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag,
+		a.remarks
+	</sql>
+	<sql id="workCellJoins">
+		left join bas_workstationinfos c on c.id=a.station_id
+	</sql>
+	<!-- 1.根据id查询 -->
+	<select id="get" resultType="WorkCell">
+		SELECT 
+			<include refid="workCellColumns"/>
+		FROM bas_workcell a
+			<include refid="workCellJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<!-- 2.分页查询 -->
+	<select id="findList" resultType="WorkCell">
+		SELECT 
+			<include refid="workCellColumns"/>
+		FROM bas_workcell a
+			<include refid="workCellJoins"/>
+		WHERE a.del_flag=#{DEL_FLAG_NORMAL}
+		<if test="cellName != null and cellName != ''">
+			and a.cellName like concat('%',#{cellName},'%')
+		</if>
+		order by a.update_date desc
+	</select>
+	<!-- 3.查询所有 -->
+	<select id="findAllList" resultType="WorkCell">
+		SELECT 
+			<include refid="workCellColumns"/>
+		FROM bas_workcell a
+			<include refid="workCellJoins"/>
+		WHERE a.del_flag=#{DEL_FLAG_NORMAL}
+		order by a.update_date desc
+	</select>
+	<!-- 4.添加 -->
+	<insert id="insert">
+		insert into bas_workcell(
+			id,
+			cellName,
+			cellNumber,
+			cellMaster,
+			cellDescription,
+			station_id,
+			del_flag,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		)values(
+			#{id},
+			#{cellName},
+			#{cellNumber},
+			#{cellMaster},
+			#{cellDescription},
+			#{workStationInfos.id},
+			#{delFlag},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	<!-- 5.修改 -->
+	<update id="update">
+		update bas_workcell set
+			cellName=#{cellName},
+			cellNumber=#{cellNumber},
+			cellMaster=#{cellMaster},
+			cellDescription=#{cellDescription},
+			station_id=#{workStationInfos.id},
+			update_by=#{updateBy.id},
+			update_date=#{updateDate}
+		where id=#{id}
+	</update>
+	<!-- 6.删除 -->
+	<update id="delete">
+		update bas_workcell set
+			del_flag=#{DEL_FLAG_DELETE}
+		where id=#{id}
+	</update>
+</mapper>

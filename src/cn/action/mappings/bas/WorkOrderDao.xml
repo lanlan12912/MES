@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.bas.dao.WorkOrderDao">
+    <sql id="Columns">
+        a.id,
+        a.order_id as "order.id",
+        b.orderNo as "order.orderNo",
+        a.orderCode,
+        a.unitName,
+        a.orderType,
+        a.amount,
+        a.estStartTime,
+        a.estEndTime,
+        a.actStartTime,
+        a.inAmount,
+        a.outAmount,
+        a.scrapAmount,
+        a.state,
+        a.line_id as "line.id",
+        c.lineName as "line.lineName",
+        a.product_id as "product.id",
+        d.productName as "product.productName",
+        a.del_flag,
+        a.remarks,
+        a.create_by as "createBy.id",
+        a.create_date,
+        a.update_by as "updateBy.id",
+        a.update_date
+
+    </sql>
+    <sql id="Joins">
+        left join orders b on b.id=a.order_id
+        left join bas_line c on c.id=a.line_id
+        left join bas_product d on d.id=a.product_id
+    </sql>
+    <!--    1.根据id查询 get-->
+    <select id="get" resultType="WorkOrder">
+        select <include refid="Columns"/>
+        from bas_workorder a
+        <include refid="Joins"/>
+        where a.id=#{id}
+    </select>
+    <!--    根据条件查询-->
+    <select id="findList" resultType="WorkOrder">
+        select <include refid="Columns"/>
+        from bas_workorder a
+        <include refid="Joins"/>
+        where a.del_flag=#{DEL_FLAG_NORMAL}
+        <if test="orderCode!=null and orderCode!=''">
+            and a.orderCode like concat('%',#{orderCode},'%')
+        </if>
+        <if test="state!=null and state!=''">
+            and a.state!=#{state}
+        </if>
+        order by a.update_date desc
+    </select>
+    <!--    查询所有-->
+    <select id="findAllList" resultType="WorkOrder">
+        select <include refid="Columns"/>
+        from bas_workorder a
+        <include refid="Joins"/>
+        where a.del_flag=#{DEL_FLAG_NORMAL}
+        order by a.update_date desc
+    </select>
+    <!--    2.插入-->
+    <insert id="insert">
+        insert into bas_workorder(
+            id,
+            order_id,
+            orderCode,
+            unitName,
+            orderType,
+            amount,
+            estStartTime,
+            estEndTime,
+            actStartTime,
+            inAmount,
+            outAmount,
+            scrapAmount,
+            state,
+            line_id,
+            product_id,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        )value (
+            #{id},
+            #{order.id},
+            #{orderCode},
+            #{unitName},
+            #{orderType},
+            #{amount},
+            #{estStartTime},
+            #{estEndTime},
+            #{actStartTime},
+            #{inAmount},
+            #{outAmount},
+            #{scrapAmount},
+            #{state},
+            #{line.id},
+            #{product.id},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+    <!--    修改-->
+    <update id="update">
+        update bas_workorder set
+            order_id=#{order.id},
+            orderCode=#{orderCode},
+            unitName=#{unitName},
+            orderType=#{orderType},
+            amount=#{amount},
+            estStartTime=#{estStartTime},
+            estEndTime=#{estEndTime},
+            actStartTime=#{actStartTime},
+            inAmount=#{inAmount},
+            outAmount=#{outAmount},
+            scrapAmount=#{scrapAmount},
+            state=#{state},
+            line_id=#{line.id},
+            product_id=#{product.id},
+            update_by=#{updateBy.id},
+            update_date=#{updateDate}
+        where id=#{id}
+    </update>
+    <!--    删除-->
+    <update id="delete">
+        update bas_workorder set
+            del_flag=#{DEL_FLAG_DELETE}
+        where id=#{id}
+    </update>
+</mapper>

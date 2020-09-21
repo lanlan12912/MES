@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.kpi.dao.PerformTypeDao">
+	
+	<sql id="columns">
+		id,
+		performTypeName,
+		performTypeNum,
+		performTypeUnit,
+		create_by as "createBy.id",
+		create_date as createDate,
+		update_by as "updateBy.id",
+		update_date as "updateDate",
+		remarks,
+		del_flag as delFlag
+		
+	</sql>
+	<!-- 根据id查询：get -->
+	<select id="get" resultType="PerformType">
+		select
+			<include refid="columns"></include>
+		FROM kpi_performtype 
+		WHERE id = #{id}
+	</select>
+	<!-- 根据条件查询:findList -->
+	<select id="findList" resultType="PerformType">
+		SELECT 
+			<include refid="columns"></include>
+		FROM kpi_performtype 
+		WHERE del_flag = #{DEL_FLAG_NORMAL} 
+		<if test="performTypeName != null and performTypeName != ''">
+			AND performTypeName = #{performTypeName}
+		</if>
+		ORDER BY update_date DESC
+	</select>
+	<!-- 查询所有：findAllList -->
+	<select id="findAllList" resultType="PerformType">
+		SELECT 
+			<include refid="columns"></include>
+		FROM kpi_performtype 
+		WHERE del_flag = #{DEL_FLAG_NORMAL} 
+		ORDER BY create_date DESC
+	</select>
+	<!-- 添加 -->
+	<insert id="insert">
+		INSERT INTO kpi_performtype(
+			id, 
+			performTypeName,
+			performTypeNum,
+			performTypeUnit,
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date, 
+			remarks, 
+			del_flag
+		) VALUES ( 
+			#{id},
+			#{performTypeName},
+			#{performTypeNum},
+			#{performTypeUnit},
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{delFlag}
+		)
+	</insert>	
+	<!-- 修改 -->
+	<update id="update">
+		UPDATE kpi_performtype SET 
+			performTypeName = #{performTypeName}, 
+			performTypeNum = #{performTypeNum}, 
+			performTypeUnit = #{performTypeUnit}, 
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}, 
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	<!-- 删除 -->
+	<update id="delete">
+		UPDATE kpi_performtype SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

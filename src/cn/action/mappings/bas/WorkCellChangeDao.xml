@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.bas.dao.WorkCellChangeDao">
+	
+	<select id="findList" resultType="WorkCellChange">
+		select 
+			month(clockOff) as month,
+			sum((time_to_sec(clockOff)-time_to_sec(clockIn))/3600) as totalTime 
+		from action.mount_guard 
+		where 
+			cellName=#{cellName} and 
+			year(clockOff)=#{year}  
+		group by month(clockOff) 
+		order by month(clockOff)
+	</select>
+	<select id="findAllList" resultType="WorkCellChange">
+		select cellName FROM action.mount_guard group by cellName
+	</select>
+</mapper>

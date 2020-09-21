@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.bas.dao.MaterialDao">
+	<sql id="columns">
+		 id, 
+		 batchNum, 
+		 mType, 
+		 mName, 
+		 supplierId, 
+		 supplierName, 
+		 purchaseDate, 
+		 quantity, 
+		 unit, 
+		 del_flag, 
+		 remarks, 
+		 create_by as "createBy.id", 
+		 create_date, 
+		 update_by as "updateBy.id", 
+		 update_date
+	</sql>
+	<!--1.get 根据id查询  -->
+	<select id="get" resultType="Material">
+		select
+			<include refid="columns"/>
+		from material
+		where id=#{id}
+	</select>
+	<!--2.分页查询  -->
+	<select id="findList" resultType="Material">
+		select
+			<include refid="columns"/>
+		from material
+		where del_flag=#{DEL_FLAG_NORMAL}
+		<if test="mType!=null and mType!=''"><!-- 根据材料类型查找 -->
+		  and mType=#{mType}
+		</if>
+		order by purchaseDate
+	</select>
+	<!-- 3.查询某种类型原料的总数 -->
+	<select id="findSum" resultType="Material">
+	   select
+	       sum(quantity) as "sum"
+	   from material
+	   where mType=#{mType}
+	</select>
+	<!-- 4.修改 -->
+	<update id="update">
+	    update material set
+	         batchNum=#{batchNum}, 
+			 mType=#{mType}, 
+			 mName=#{mName}, 
+			 supplierId=#{supplierId}, 
+			 supplierName=#{supplierName}, 
+			 purchaseDate=#{purchaseDate}, 
+			 quantity=#{quantity}, 
+			 unit=#{unit}, 
+			 update_by=#{updateBy.id} , 
+		     update_date=#{updateDate}
+	    where id=#{id}
+	</update>
+</mapper>

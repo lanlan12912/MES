@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.tec.dao.ProcessStationDao">
+    
+     <sql id="Columns">
+    	a.id,
+    	a.station_id AS "workStationInfos.id",
+    	b.stationName as "workStationInfos.stationName",
+    	a.pro_id AS "process.id",
+    	c.proName as "process.proName",
+    	a.line_id AS "line.id",
+    	d.lineNumber as "line.lineNumber",
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag
+    </sql>
+    
+    
+    <sql id="Joins">
+		LEFT JOIN bas_workstationinfos b ON b.id = a.station_id
+		LEFT JOIN tec_process c ON c.id = a.pro_id
+		LEFT JOIN bas_line d ON d.id = a.line_id
+    </sql>
+    
+	<select id="get" resultType="ProcessStation">
+		SELECT 
+			<include refid="Columns"/>
+		FROM tec_process_station a
+			<include refid="Joins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	
+	
+	<select id="findProcessStationByStationId" resultType="ProcessStation">
+		SELECT 
+			<include refid="Columns"/>
+		FROM tec_process_station a
+			<include refid="Joins"/>
+		WHERE a.station_id= #{workStationInfos.id}
+	</select>
+	
+	
+	
+	
+	<select id="findList" resultType="ProcessStation">
+		SELECT 
+			<include refid="Columns"/>
+		FROM tec_process_station a
+			<include refid="Joins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		<if test="process.proName != null and process.proName != ''">
+			AND c.proName = #{process.proName}
+		</if>
+		ORDER BY a.update_date DESC
+	</select>
+	
+	<select id="findAllList" resultType="ProcessStation">
+		SELECT 
+			<include refid="Columns"/>
+		FROM tec_process_station a
+			<include refid="Joins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tec_process_station(
+			id, 
+			station_id,
+			pro_id,
+			line_id,
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date, 
+			remarks, 
+			del_flag
+		) VALUES ( 
+			#{id},
+			#{workStationInfos.id},
+			#{process.id},
+			#{line.id},
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tec_process_station SET 
+			station_id = 	#{workStationInfos.id},
+			pro_id = 	#{process.id},
+			line_id = 	#{line.id},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}, 
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tec_process_station SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

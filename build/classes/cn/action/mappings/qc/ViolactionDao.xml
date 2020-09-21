@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.qc.dao.ViolactionDao">
+    <sql id="Columns">
+        a.id,
+        a.station_id as "workStationInfos.id",
+        b.stationName as "workStationInfos.stationName",
+        a.pro_id as "process.id",
+        c.proCode as "process.proCode",
+        c.proName as "process.proName",
+
+        a.userName,
+        a.violation_des as "violationDes",
+        a.violation_time as "violationTime",
+
+        a.del_flag,
+        a.remarks,
+        a.create_by as "createBy_id",
+        a.create_date,
+        a.update_by as "updateBy_id",
+        a.update_date
+    </sql>
+    <sql id="Joins">
+        left join bas_workstationinfos b on b.id=a.station_id
+        left join tec_process c on c.id=a.pro_id
+    </sql>
+    <!--- 1，根据id查询-->
+    <select id="get" resultType="Violaction">
+        select
+        <include refid="Columns"/>
+        from qc_violaction a
+        <include refid="Joins"/>
+        where a.id=#{id}
+    </select>
+    <!--- 2，根据多条件查询-->
+    <select id="findList" resultType="Violaction">
+        select
+        <include refid="Columns"/>
+        from qc_violaction a
+        <include refid="Joins"/>
+        where a.del_flag=#{DEL_FLAG_NORMAL}
+        <if test="workStationInfos.stationName!=null and workStationInfos.stationName!=''">
+            and b.stationName like concat('%',#{workStationInfos.stationName},'%')
+        </if>
+        order by a.update_date desc
+    </select>
+    <!--- 3，查询所有-->
+    <select id="findAllList" resultType="Violaction">
+        select
+        <include refid="Columns"/>
+        from qc_violaction a
+        <include refid="Joins"/>
+        where a.del_flag=#{DEL_FLAG_NORMAL}
+        order by a.update_date desc
+    </select>
+    <!--- 4，添加-->
+    <insert id="insert">
+        insert into qc_violaction(
+        id,
+        station_id,
+        pro_id,
+        userName,
+        violation_des,
+        violation_time,
+        del_flag,
+        remarks,
+        create_by,
+        create_date,
+        update_by,
+        update_date
+        )values(
+        #{id},
+        #{workStationInfos.id},
+        #{process.id},
+        #{userName},
+        #{violationDes},
+        #{violationTime},
+        #{delFlag},
+        #{remarks},
+        #{createBy.id},
+        #{createDate},
+        #{updateBy.id},
+        #{updateDate}
+        )
+    </insert>
+    <!--- 5，修改-->
+    <update id="update">
+        update qc_violaction set
+        station_id=#{workStationInfos.id},
+        pro_id=#{process.id},
+        userName=#{userName},
+        violation_des=#{violationDes},
+        violation_time=#{violationTime},
+        update_by=#{updateBy.id},
+        update_date=#{updateDate}
+        where id=#{id}
+    </update>
+    <!--- 6，删除-->
+    <update id="delete">
+        update qc_violaction set
+        del_flag=#{DEL_FLAG_DELETE}
+        where id=#{id}
+    </update>
+    <!-- 7.查询违规次数 -->
+	<select id="findTimes" resultType="Violaction">
+		SELECT userName,count(userName) as count
+		FROM qc_violaction
+		where del_flag=#{DEL_FLAG_NORMAL}
+		<if test="violationTime!=null and violationTime!=''">
+            and violation_time like concat('%',#{violationTime},'%')
+        </if>
+		GROUP BY userName ORDER BY count(userName) desc
+	</select>
+</mapper>

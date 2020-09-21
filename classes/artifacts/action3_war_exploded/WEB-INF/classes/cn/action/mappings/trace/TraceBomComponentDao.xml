@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.trace.dao.TraceBomComponentDao">
+    <!-- 公共字段-->
+    <sql id="Columns">
+        a.bomName,
+        a.id as "bomDetail.bom_id",
+        b.mType as "bomDetail.mType",
+        b.mNum as "bomDetail.mNum",
+        b.unit as "bomDetail.unit",
+        a.bomVersion,
+        a.product_id as "product.id",
+        c.productName as "product.productName",
+        c.lotNumber as "product.lotNumber",
+        a.status,
+        a.del_flag,
+        a.remarks,
+        a.create_by as "createBy.id",
+        a.create_date,
+        a.update_by as "updateBy.id",
+        a.update_date
+    </sql>
+    <sql id="Joins">
+        left join bas_bom_detail b on b.bom_id=a.id
+        left join bas_product c on c.id=a.product_id
+    </sql>
+    <!--1.根据id查询get-->
+    <select id="get" resultType="TraceBomComponent">
+        select
+        <include refid="Columns"/>
+        from bas_bom a
+        <include refid="Joins"/>
+        where a.id=#{id}
+    </select>
+    <!--2.根据条件查询findList-->
+    <select id="findList" resultType="TraceBomComponent">
+        select
+        <include refid="Columns"/>
+        from bas_bom a
+        <include refid="Joins"/>
+        where a.del_flag=#{DEL_FLAG_NORMAL}
+        <if test="lotNumber!=null and lotNumber!=''">
+            and c.lotNumber like concat('%',#{lotNumber},'%')
+        </if>
+        order by a.update_date desc
+    </select>
+    <!--3.查询所有findAllList-->
+    <select id="findAllList" resultType="TraceBomComponent">
+        select
+        <include refid="Columns"/>
+        from bas_bom a
+        <include refid="Joins"/>
+        where a.del_flag=#{DEL_FLAG_NORMAL}
+        order by a.update_date desc
+    </select>
+</mapper>

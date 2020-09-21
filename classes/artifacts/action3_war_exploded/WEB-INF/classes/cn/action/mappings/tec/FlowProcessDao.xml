@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.tec.dao.FlowProcessDao">
+    
+     <sql id="Columns">
+    	a.id,
+    	a.flow_id AS "flow.id",
+    	b.flowName as "flow.flowName",
+    	a.pro_id AS "process.id",
+    	c.proName as "process.proName",
+    	a.sort,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag
+    </sql>
+    
+    
+    <sql id="Joins">
+		LEFT JOIN tec_flow b ON b.id = a.flow_id 
+		LEFT JOIN tec_process c ON c.id = a.pro_id
+    </sql>
+    
+	<select id="get" resultType="FlowProcess">
+		SELECT 
+			<include refid="Columns"/>
+		FROM tec_flow_process a
+			<include refid="Joins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="FlowProcess">
+		SELECT 
+			<include refid="Columns"/>
+		FROM tec_flow_process a
+			<include refid="Joins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		<if test="flow.flowName != null and flow.flowName != ''">
+			AND b.flowName = #{flow.flowName}
+		</if>
+		ORDER BY a.update_date DESC
+	</select>
+	
+	<select id="findAllList" resultType="FlowProcess">
+		SELECT 
+			<include refid="Columns"/>
+		FROM tec_flow_process a
+			<include refid="Joins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tec_flow_process(
+			id, 
+			flow_id,
+			pro_id,
+			sort,
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date, 
+			remarks, 
+			del_flag
+		) VALUES ( 
+			#{id},
+			#{flow.id},
+			#{process.id},
+			#{sort},
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tec_flow_process SET 
+			flow_id = 	#{flow.id},
+			pro_id = 	#{process.id},
+			sort = 	#{sort},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}, 
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tec_flow_process SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

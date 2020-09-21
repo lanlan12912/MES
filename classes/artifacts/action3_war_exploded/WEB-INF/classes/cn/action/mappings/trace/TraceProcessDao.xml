@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.trace.dao.TraceProcessDao">
+    <!-- 公共字段-->
+    <sql id="Columns">
+        a.id,
+        a.station_id as "workstationinfos.id",
+        b.stationName as "workstationinfos.stationName",
+        b.id as "workcell.station_id",
+        e.cellname as "workcell.cellName",
+        e.id as "cell_employee.cell_id",
+        f.id as "cell_employee.employee_id",
+        f.employee_id as "employee.id",
+        p.employeeName as "employee.employeeName",
+
+        a.pro_id as "process.id",
+        c.proName as "process.proName",
+        c.id as "flow_process.pro_id",
+        g.id as "flow_process.flow_id",
+        g.flow_id as "flow.id",
+        h.flowName as "flow.flowName",
+        h.id as "product.flow_id",
+        k.lotNumber as "product.lotNumber",
+        a.create_by as "createBy.id",
+        a.create_date,
+        a.update_by as "updateBy.id",
+        a.update_date,
+        a.remarks,
+        a.del_flag
+    </sql>
+    <sql id="Joins">
+        left join bas_workstationinfos b on b.id=a.station_id
+
+        left join bas_workcell e on e.station_id=b.id
+
+        left join bas_cell_employee f on f.cell_id=e.id
+
+        left join bas_employees p on p.id=f.employee_id
+
+
+        left join tec_process c on c.id=a.pro_id
+
+        left join tec_flow_process g on g.pro_id=c.id
+
+        left join tec_flow h on h.id=g.flow_id
+        left join bas_product k on k.flow_id=h.id
+
+    </sql>
+    <!--1.根据id查询get-->
+    <select id="get" resultType="TraceProcess">
+        select
+        <include refid="Columns"/>
+        from tec_process_station a
+        <include refid="Joins"/>
+        where a.id=#{id}
+    </select>
+    <!--2.根据条件查询findList-->
+    <select id="findList" resultType="TraceProcess">
+        select
+        <include refid="Columns"/>
+        from tec_process_station a
+        <include refid="Joins"/>
+        where a.del_flag=#{DEL_FLAG_NORMAL}
+        <if test="lotNumber!=null and lotNumber!=''">
+            and k.lotNumber like concat('%',#{lotNumber},'%')
+        </if>
+        order by a.update_date desc
+    </select>
+    <!--3.查询所有findAllList-->
+    <select id="findAllList" resultType="TraceProcess">
+        select
+        <include refid="Columns"/>
+        from tec_process_station a
+        <include refid="Joins"/>
+        where a.del_flag=#{DEL_FLAG_NORMAL}
+        order by a.update_date desc
+    </select>
+</mapper>

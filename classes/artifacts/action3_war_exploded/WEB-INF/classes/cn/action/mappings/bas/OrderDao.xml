@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.bas.dao.OrderDao">
+   <sql id="oColumns">
+      a.id, 
+      a.orderNo, 
+      a.indentor, 
+      a.product_id as "product.id", 
+      b.productName as "product.productName",
+      a.quantity, 
+      a.unit, 
+      a.orderDate, 
+      a.salesman, 
+      a.status, 
+      a.del_flag, 
+      a.remarks, 
+      a.create_by as "createBy.id", 
+	  a.create_date, 
+	  a.update_by as "updateBy.id", 
+	  a.update_date
+   </sql>
+   <sql id="oJoins">
+      left join bas_product b on b.id=a.product_id
+   </sql>
+   <!-- 根据id查找：get -->
+   <select id="get" resultType="Order">
+      select
+         <include refid="oColumns"/>
+      from orders a
+         <include refid="oJoins"/>
+      where a.id=#{id}
+   </select>
+   <!-- 分页查询：findList -->
+   <select id="findList" resultType="Order">
+      select 
+          <include refid="oColumns"/>
+      from orders a
+          <include refid="oJoins"/>
+      where a.del_flag=#{DEL_FLAG_NORMAL}
+      order by orderDate
+   </select>
+   <update id="update">
+       update orders set 
+          orderNo=#{orderNo}, 
+          indentor=#{indentor}, 
+          product_id=#{product.id},
+          quantity=#{quantity}, 
+          unit=#{unit}, 
+          orderDate=#{orderDate}, 
+          salesman=#{salesman}, 
+          status=#{status},
+          update_by=#{updateBy.id}, 
+          update_date=#{updateDate}
+       where id=#{id}
+   </update>
+</mapper>

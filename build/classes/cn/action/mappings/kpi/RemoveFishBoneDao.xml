@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.kpi.dao.RemoveFishBoneDao">
+	<sql id="Columns">
+		Date_format(a.time,'%Y-%m-%d') as time,
+		a.employeeName,
+		round(sum(a.weight),2) as weight,
+		round(sum(a.weight)*d.performTypeNum/100,2) as money
+	</sql>
+	
+	<sql id="Joins">
+		inner join bas_workcell b on b.id=a.workCellId
+		inner join kpi_perform_station c on c.station_id=b.station_id
+		inner join kpi_performtype d on d.id=c.perform_id
+	</sql>
+	
+	<sql id="Group">
+		group by Date_format(a.time,'%Y-%m-%d'),a.cardId
+		order by Date_format(a.time,'%Y-%m-%d')
+	</sql>
+	
+	<select id="get" resultType="RemoveFishBone">
+		select
+			<include refid="Columns"/>
+		from log_removefishbonebizrecords a
+			<include refid="Joins"/>
+		where a.id=#{id}
+	</select>
+	
+	<select id="findList" resultType="RemoveFishBone">
+		select
+			<include refid="Columns"/>
+		from log_removefishbonebizrecords a
+			<include refid="Joins"/>
+		<where>
+			<if test="employeeName!=null and employeeName!=''">
+				a.employeeName like concat('%','${employeeName}','%')
+			</if>
+			<choose>
+				<when test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+					and Date_Format(a.time,'%Y-%m-%d') between #{startTime} and #{endTime}
+				</when>
+				<when test="startTime!=null and startTime!=''">
+					and Date_Format(a.time,'%Y-%m-%d') &gt;=#{startTime}
+				</when>
+				<when test="endTime!=null and endTime!=''">
+					and Date_Format(a.time,'%Y-%m-%d') &lt;=#{endTime}
+				</when>
+			</choose>
+		</where>
+		<include refid="Group"/>
+	</select>
+	
+	<select id="findAllList" resultType="RemoveFishBone">
+		select
+			<include refid="Columns"/>
+		from log_removefishbonebizrecords a
+			<include refid="Joins"/>
+		<include refid="Group"/>
+	</select>
+	
+	<select id="findMonthList" resultType="RemoveFishBone">
+		select
+			Date_format(a.time,'%Y-%m') as time,
+			a.employeeName,
+			round(sum(a.weight),2) as weight,
+			round(sum(a.weight)*d.performTypeNum/100,2) as money
+		from log_removefishbonebizrecords a
+			<include refid="Joins"/>
+		<where>
+			<if test="employeeName!=null and employeeName!=''">
+				a.employeeName like concat('%','${employeeName}','%')
+			</if>
+			<choose>
+				<when test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+					and Date_Format(a.time,'%Y-%m') between #{startTime} and #{endTime}
+				</when>
+				<when test="startTime!=null and startTime!=''">
+					and Date_Format(a.time,'%Y-%m') &gt;=#{startTime}
+				</when>
+				<when test="endTime!=null and endTime!=''">
+					and Date_Format(a.time,'%Y-%m') &lt;=#{endTime}
+				</when>
+			</choose>
+		</where>
+		group by Date_format(a.time,'%Y-%m'),a.cardId
+		order by Date_format(a.time,'%Y-%m')
+	</select>
+</mapper>

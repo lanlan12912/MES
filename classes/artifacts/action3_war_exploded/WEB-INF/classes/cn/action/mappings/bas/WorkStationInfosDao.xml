@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.bas.dao.WorkStationInfosDao">
+	<sql id = "workStationInfosColumns">
+		a.id,
+		a.stationName,
+		a.stationNo,
+		a.stationMaster,
+		a.remarks,
+		a.del_flag,
+		a.line_id as "line.id",
+		c.lineName as "line.lineName",
+		a.create_by as "createBy.id",
+		a.create_date,
+		a.update_by as "updateBy.id",
+		a.update_date
+	</sql>
+	<sql id = "workStationInfosJoins">
+		left join bas_line c on c.id=a.line_id
+	</sql>
+	<!-- 1.根据id查询工站信息 -->
+	<select id="get" resultType="WorkStationInfos">
+		select
+			<include refid="workStationInfosColumns"></include>
+		from bas_workstationinfos a
+			<include refid="workStationInfosJoins"></include>
+		where a.id=#{id}
+	</select>
+	<!-- 2.分页查询 -->
+	<select id="findList" resultType="WorkStationInfos">
+		select
+			<include refid="workStationInfosColumns"></include>
+		from bas_workstationinfos a
+			<include refid="workStationInfosJoins"></include>
+		where a.del_flag=#{DEL_FLAG_NORMAL}
+		<if test="stationName != null and stationName != ''">
+			and a.stationName like concat('%',#{stationName},'%')
+		</if>
+		order by a.update_date desc
+	</select>
+	<!-- 3.查询所有 -->
+	<select id="findAllList" resultType="WorkStationInfos">
+		select
+			<include refid="workStationInfosColumns"></include>
+		from bas_workstationinfos a
+			<include refid="workStationInfosJoins"></include>
+		where a.del_flag=#{DEL_FLAG_NORMAL}
+		order by a.update_date desc
+	</select>
+	<!-- 查询所有没有关联绩效参数的工站 -->
+	<select id="findNoPerform" resultType="WorkStationInfos">
+		select 
+			<include refid="workStationInfosColumns"></include>
+		from bas_workstationinfos a
+			<include refid="workStationInfosJoins"></include>
+		where a.del_flag = #{DEL_FLAG_NORMAL}
+		and a.id not in (select station_id from kpi_perform_station where del_flag= #{DEL_FLAG_NORMAL})	
+	</select>
+	<!-- 4.添加 -->
+	<insert id="insert">
+		insert into bas_workstationinfos(
+			id,
+			stationName,
+			stationNo,
+			stationMaster,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			line_id,
+			remarks
+		)values(
+			#{id},
+			#{stationName},
+			#{stationNo},
+			#{stationMaster},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{line.id},
+			#{remarks}
+		)
+	</insert>
+	<!-- 5.修改 -->
+	<update id="update">
+		update bas_workstationinfos set
+			stationName=#{stationName},
+			stationNo=#{stationNo},
+			stationMaster=#{stationMaster},
+			line_id=#{line.id},
+			update_by=#{updateBy.id},
+			update_date=#{updateDate},
+			remarks = #{remarks}
+		where id=#{id}
+	</update>
+	<!-- 6.删除 -->
+	<update id="delete">
+		update bas_workstationinfos set del_flag=#{DEL_FLAG_DELETE}
+		where id=#{id}
+	</update>
+</mapper>

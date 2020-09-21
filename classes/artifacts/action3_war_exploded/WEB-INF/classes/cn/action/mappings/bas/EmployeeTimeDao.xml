@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.bas.dao.EmployeeTimeDao">
+
+	<select id="findList" resultType="EmployeeTime">
+		select 
+			employeeName,
+			clockIn,
+			0+cast(sum(TIME_TO_SEC(clockOff) - TIME_TO_SEC(clockIn))/60/60 as char) as week
+		from mount_guard 
+		group by employeeName,to_seconds(clockIn) div 604800
+	</select>
+</mapper>

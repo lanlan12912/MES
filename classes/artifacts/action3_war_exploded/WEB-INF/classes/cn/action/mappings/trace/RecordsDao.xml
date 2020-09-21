@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.trace.dao.RecordsDao">
+	<sql id="columns">
+		bas_product.lotNumber,
+		bas_product.productName,
+		tec_process.proCode,
+		tec_process.proName,
+		bas_workcell.cellNumber,
+		bas_workcell.cellName,
+		bas_employees.employeeNo,
+		bas_employees.employeeName	
+	</sql>
+	<sql id="joins">
+		join tec_flow_process on tec_flow_process.pro_id=tec_process.id
+		join tec_flow on tec_flow_process.flow_id=tec_flow.id
+		join bas_product on bas_product.flow_id=tec_flow.id
+		join bas_employees
+		join bas_cell_employee on  bas_employees.id=bas_cell_employee.employee_id
+		join bas_workcell on bas_workcell.id=bas_cell_employee.cell_id
+	</sql>
+	<!-- 根据批次查询生产记录 -->
+	<select id="findList" resultType="Records">
+		select
+			<include refid="columns"></include>
+		from tec_process
+			<include refid="joins"></include>
+			<if test="lotNumber!=null and lotNumber!=''">
+			where bas_product.lotNumber like concat('%',#{lotNumber},'%')
+			</if>
+		group by bas_product.lotNumber,tec_process.proCode,bas_workcell.cellNumber
+	</select>
+	<!-- 默认：显示所有批次产品生产记录信息 -->
+	<select id="findAllList" resultType="Records">
+		select
+			<include refid="columns"></include>
+		from bas_employees ,tec_process
+			<include refid="joins"></include>
+		group by bas_product.lotNumber,tec_process.proCode,bas_workcell.cellNumber
+	</select>
+</mapper>

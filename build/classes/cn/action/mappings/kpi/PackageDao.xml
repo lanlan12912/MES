@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.kpi.dao.PackagesDao">
+    	
+    <sql id="PackagesColumns">
+    	 DATE_FORMAT(`time`, '%Y-%m-%d') time,
+    	 COUNT(a.id)  weight,
+    	 COUNT(a.id) * pay / 100 money
+    </sql>
+	
+	<select id="findList" resultType="Packages">
+		SELECT     
+			<include refid="PackagesColumns"/>
+		FROM `log_PackageBizRecords` a
+		JOIN kpi_SalaryConfig 
+		WHERE workType = 'Packages'
+		<if test="startTime != null and startTime != '' and  endTime != null and endTime != '' ">
+			AND DATE_FORMAT(`time`, '%Y-%m-%d') BETWEEN #{startTime} AND #{endTime}
+		</if>
+		GROUP BY DATE_FORMAT(`time`, '%Y-%m-%d')
+		ORDER BY DATE_FORMAT(`time`, '%Y-%m-%d') 
+	</select>
+	
+	<select id="findAllList" resultType="Packages">
+		SELECT     
+			<include refid="PackagesColumns"/>
+		FROM `log_PackageBizRecords` a
+		JOIN kpi_SalaryConfig 
+		WHERE workType = 'Packages'
+		GROUP BY DATE_FORMAT(`time`, '%Y-%m-%d'), personName
+		ORDER BY DATE_FORMAT(`time`, '%Y-%m-%d') 
+	</select>	
+</mapper>

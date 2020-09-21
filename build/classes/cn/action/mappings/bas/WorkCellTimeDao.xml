@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.bas.dao.WorkCellTimeDao">
+	
+	<select id="findList" resultType="WorkCellTime">
+		SELECT 
+			cellName,
+			sum((time_to_sec(clockOff)-time_to_sec(clockIn))/3600) as totalTime,
+			month(clockOff) as month,
+			year(clockOff) as year,
+			week(clockOff) as week
+		from mount_guard 
+		where 
+			year(clockOff)=#{year} and 
+			month(clockOff)=#{month} and 
+			dayofmonth(clockOff)>(#{week}-1)*7 and 
+			dayofmonth(clockOff)<![CDATA[ <= ]]>(#{week})*7
+		group by cellName
+	</select>
+</mapper>

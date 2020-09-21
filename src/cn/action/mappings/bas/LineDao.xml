@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.action.modules.bas.dao.LineDao">
+    
+    <sql id="lineColumns">
+    	a.id,
+    	a.workshop_id AS "workshop.id",
+    	c.shopName as "workshop.shopName",
+		a.lineName, 
+		a.lineNumber, 
+		a.lineMaster, 
+		a.lineDescription, 
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag
+    </sql>
+    
+    
+    <sql id="lineJoins">
+		LEFT JOIN bas_workshop c ON c.id = a.workshop_id
+    </sql>
+	<select id="get" resultType="Line">
+		SELECT 
+			<include refid="lineColumns"/>
+		FROM bas_line a
+			<include refid="lineJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Line">
+		SELECT 
+			<include refid="lineColumns"/>
+		FROM bas_line a
+			<include refid="lineJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		<if test="lineName != null and lineName != ''">
+			AND lineName = #{lineName}
+		</if>
+		ORDER BY a.update_date DESC
+	</select>
+	
+	<select id="findAllList" resultType="Line">
+		SELECT 
+			<include refid="lineColumns"/>
+		FROM bas_line a
+			<include refid="lineJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		ORDER BY lineName,lineNumber
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO bas_line(
+			id, 
+			lineName, 
+			lineNumber, 
+			lineMaster, 
+			lineDescription, 
+			workshop_id,
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date, 
+			remarks, 
+			del_flag
+		) VALUES ( 
+			#{id},
+			#{lineName}, 
+			#{lineNumber}, 
+			#{lineMaster}, 
+			#{lineDescription},
+			#{workshop.id}, 
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE bas_line SET 
+			lineName = #{lineName}, 
+			lineNumber = #{lineNumber}, 
+			lineMaster = #{lineMaster}, 
+			lineDescription = #{lineDescription}, 
+			workshop_id = 	#{workshop.id}, 
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}, 
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE bas_line SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
