@@ -18,39 +18,39 @@
 		a.update_date,
 		a.del_flag
     </sql>
-    
-    
-    <sql id="factoryJoins">
+
+
+	<sql id="factoryJoins">
 		LEFT JOIN bas_enterprise c ON c.id = a.enterprise_id
     </sql>
 
-    <!-- 1.get 根据id查询工厂信息 -->
+	<!-- 1.get 根据id查询工厂信息 -->
 	<select id="get" resultType="Factory">
-		SELECT 
-			<include refid="factoryColumns"/>
+		SELECT
+		<include refid="factoryColumns"/>
 		FROM bas_factory a
 		<include refid="factoryJoins"/>
 		WHERE a.id = #{id}
 	</select>
 	<!-- 2.分页查询，根据工厂名称 -->
 	<select id="findList" resultType="Factory">
-		SELECT 
-			<include refid="factoryColumns"/>
+		SELECT
+		<include refid="factoryColumns"/>
 		FROM bas_factory a
 		<include refid="factoryJoins"/>
-		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 		<if test="factoryName != null and factoryName != ''">
-			AND a.factoryName = #{factoryName}
+			AND a.factoryName like concat('%',#{factoryName},'%')
 		</if>
 		ORDER BY a.update_date DESC
 	</select>
 	<!-- 3.查询所有 -->
 	<select id="findAllList" resultType="Factory">
-		SELECT 
-			<include refid="factoryColumns"/>
+		SELECT
+		<include refid="factoryColumns"/>
 		FROM bas_factory a
 		<include refid="factoryJoins"/>
-		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 		ORDER BY a.update_date DESC
 	</select>
 	<!-- 4.添加 -->
@@ -107,5 +107,5 @@
 		update bas_factory set del_flag=#{DEL_FLAG_DELETE}
 		where id=#{id}
 	</update>
-	
+
 </mapper>
