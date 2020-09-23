@@ -29,18 +29,25 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>流程编码</th><th>流程版本</th><th>流程名称</th><th>流程描述</th><th>操作</th></tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="flow">
-			<tr>
-				<td>${flow.flowCode}</td>
-				<td>${flow.version}</td>
-				<td>${flow.flowName}</td>
-				<td>${flow.flowDesc}</td>
-				<td>
-    				<a href="${ctx}/tec/flow/form?id=${flow.id}">修改</a>
-					<a href="${ctx}/tec/flow/delete?id=${flow.id}" onclick="return confirmx('确认要删除该物料吗？', this.href)">删除</a>
-				</td>
+		<c:if test="${page.count <= 0}">
+			<tr align="center">
+				<td colspan="4">暂无数据</td>>
 			</tr>
-		</c:forEach>
+		</c:if>
+		<c:if test="${page.count > 0}">
+			<c:forEach items="${page.list}" var="flow">
+				<tr>
+					<td>${flow.flowCode}</td>
+					<td>${flow.version}</td>
+					<td>${flow.flowName}</td>
+					<td>${flow.flowDesc}</td>
+					<td>
+						<a href="${ctx}/tec/flow/form?id=${flow.id}">修改</a>
+						<a href="${ctx}/tec/flow/delete?id=${flow.id}" onclick="return confirmx('确认要删除该物料吗？', this.href)">删除</a>
+					</td>
+				</tr>
+			</c:forEach>
+		</c:if>
 		</tbody>
 	</table>
 	<div class="pagination">${page}</div>

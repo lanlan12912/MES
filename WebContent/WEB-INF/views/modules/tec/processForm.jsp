@@ -38,8 +38,8 @@
 		<div class="control-group">
 			<label class="control-label">工序编码:</label>
 			<div class="controls">
-				<form:input path="proCode" htmlEscape="false" maxlength="50" class="required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="proCode" htmlEscape="false" maxlength="50" type="text" onkeyup="value=value.replace(/[^\d]/g,'')" class="required"/>
+				<span class="help-inline"><font color="red">*(请输入数字)</font> </span>
 			</div>
 		</div>
 		<div class="control-group">

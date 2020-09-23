@@ -29,18 +29,25 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>工序编码</th><th>工序名称</th><th>工序描述</th><th>操作</th></tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="process">
+		<c:if test="${page.count <= 0}">
 			<tr>
-				<td>${process.proCode}</td>
-				<td>${process.proName}</td>
-				<td>${process.proDesc}</td>
-				
-				<td>
-    				<a href="${ctx}/tec/process/form?id=${process.id}">修改</a>
-					<a href="${ctx}/tec/process/delete?id=${process.id}" onclick="return confirmx('确认要删除该物料吗？', this.href)">删除</a>
-				</td>
+				<td colspan="4" text-align="center">暂无数据</td>
 			</tr>
-		</c:forEach>
+		</c:if>
+		<c:if test="${page.count >0}">
+			<c:forEach items="${page.list}" var="process">
+				<tr>
+					<td>${process.proCode}</td>
+					<td>${process.proName}</td>
+					<td>${process.proDesc}</td>
+
+					<td>
+						<a href="${ctx}/tec/process/form?id=${process.id}">修改</a>
+						<a href="${ctx}/tec/process/delete?id=${process.id}" onclick="return confirmx('确认要删除该物料吗？', this.href)">删除</a>
+					</td>
+				</tr>
+			</c:forEach>
+		</c:if>
 		</tbody>
 	</table>
 	<div class="pagination">${page}</div>
