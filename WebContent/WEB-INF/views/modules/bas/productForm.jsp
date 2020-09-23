@@ -31,7 +31,7 @@
 	<!-- 1.tab头部 -->
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx }/bas/product/">产品列表</a></li>
-		<li class="active"><a href="">车间${not empty product.id?'修改':'添加' }</a></li>
+		<li class="active"><a href="">产品${not empty product.id?'修改':'添加' }</a></li>
 	</ul>
 	<br>
 	<!-- 2.表单 -->
