@@ -58,7 +58,8 @@
 		<div class="control-group">
 			<label class="control-label">排序号:</label>
 			<div class="controls">
-				<form:input path="sort" htmlEscape="false" maxlength="50" />
+				<form:input path="sort" htmlEscape="false" maxlength="50" type="text" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+				<span class="help-inline"><font color="red">(请输入数字)</font> </span>
 			</div>
 		</div>
 		<div class="form-actions">
