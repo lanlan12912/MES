@@ -32,7 +32,7 @@
 	<sys:message content="${message}"/>
 	<!-- 3.列表 -->
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>工位名称</th><th>所属工站</th><th>工位编码</th><th>工位负责人</th><th>操作</th></tr></thead>
+		<thead><tr><th>工位名称</th><th>所属工站</th><th>工位编码</th><th>工位负责人</th><th>工位描述</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="workCell">
 			<tr>
