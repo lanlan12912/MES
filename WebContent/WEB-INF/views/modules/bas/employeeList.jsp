@@ -59,8 +59,8 @@
 			<td>${employee.sex}</td>
 			<td>${employee.age}</td>
 			<td>${employee.telNum}</td>
-			<td>${employee.address}</td>
 			<td>${employee.email}</td>
+			<td>${employee.address}</td>
 			<td>
 				<a href="${ctx}/bas/employee/form?id=${employee.id}">修改</a>
 				<a href="${ctx}/bas/employee/delete?id=${employee.id}" onclick="return confirmx('确认要删除该员工吗？', this.href)">删除</a>
