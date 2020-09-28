@@ -44,21 +44,21 @@
 	<!-- get:根据id查询pad信息 -->
 	<select id="get" resultType="CodePrinter">
 		select
-			<include refid="cPColumns"></include>
+		<include refid="cPColumns"></include>
 		from bas_codeprinter a
-			<include refid="cPJoins"></include>
+		<include refid="cPJoins"></include>
 		where a.id=#{id}
 	</select>
 	<!-- 根据条件查询 -->
 	<select id="findList" resultType="CodePrinter">
 		select
-			<include refid="cPColumns"></include>
+		<include refid="cPColumns"></include>
 		from bas_codeprinter a
-			<include refid="cPJoins"></include>			
+		<include refid="cPJoins"></include>
 		where a.del_flag = #{DEL_FLAG_NORMAL}
 		<if test="type!= null and type != ''">
 			and a.type=#{type}
-		</if>	
+		</if>
 		<if test="spec != null and spec != ''">
 			and a.spec=#{spec}
 		</if>
@@ -70,9 +70,9 @@
 	<!-- 查询所有pad -->
 	<select id="findAllList">
 		select
-			<include refid="cPColumns"></include>
+		<include refid="cPColumns"></include>
 		from bas_codeprinter a
-			<include refid="cPJoins"></include>			
+		<include refid="cPJoins"></include>
 		where a.del_flag = #{DEL_FLAG_NORMAL}
 		order by a.type,a.spec,a.update_date desc
 	</select>
@@ -85,7 +85,7 @@
 
 			cell_id,
 			station_id,
-			
+
 			supplier,
 			manufacturer,
 			factoryNumber,
@@ -111,7 +111,7 @@
 			del_flag,
 			id
 		)values(
-			#{id},
+
 			#{qrCode},
 			#{type},
 			#{spec},
@@ -141,7 +141,8 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{id}
 		)
 	</insert>
 	<!-- 修改 -->
@@ -177,7 +178,7 @@
 	</update>
 	<!-- 删除 -->
 	<update id="delete">
-	update bas_codeprinter set 
+	update bas_codeprinter set
 		del_flag=#{DEL_FLAG_DELETE}
 	where id=#{id}
 	</update>

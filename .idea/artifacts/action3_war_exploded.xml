@@ -6,8 +6,14 @@
         <element id="directory" name="classes">
           <element id="module-output" name="action3" />
         </element>
-        <element id="directory" name="lib" />
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="commons-io-2.4" />
+          <element id="library" level="project" name="jstl" />
+          <element id="library" level="project" name="activation-1.1.11" />
+        </element>
       </element>
+      <element id="library" level="project" name="activation-1.1.1" />
+      <element id="library" level="project" name="annotations-api" />
       <element id="javaee-facet-resources" facet="action3/web/Web" />
     </root>
   </artifact>

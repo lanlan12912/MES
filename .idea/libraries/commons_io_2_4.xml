@@ -1,0 +1,27 @@
+<component name="libraryTable">
+  <library name="commons-io-2.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/commons-io-2.4.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/commons-lang3-3.4.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/commons-net-3.3.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/druid-1.1.10.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/druid-wrapper-0.2.9.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/ehcache-2.8.3.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/groovy-all-2.4.12.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/hibernate-validator-6.1.2.Final.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/ibatis-sqlmap-2.3.4.726.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/jackson-annotations-2.2.3.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/jackson-core-2.2.3 (1).jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/jackson-databind-2.2.3.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/mybatis-3.5.2.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/poi-3.9.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/shiro-core-1.5.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/slf4j-api-1.7.26.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/slf4j-log4j12-1.7.26.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/自己下载jar/validation-api-1.1.0.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -42,8 +42,8 @@
 		from mount_guard a
 			<include refid="Joins"/>
 		where a.del_flag=#{DEL_FLAG_NORMAL}
-		<if test="employee.employeeName!=null and employee.employeeName!=''">
-			and a.employeeName like concat('%',#{employee.employeeName},'%')
+		<if test="employee.employeeNo!=null and employee.employeeNo!=''">
+			and a.employeeNo like concat('%',#{employee.employeeNo},'%')
 		</if>
 		<if test="workCell.id!=null and workCell.id!=''">
 			and a.cell_id = #{workCell.id}
