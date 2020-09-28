@@ -24,7 +24,7 @@
 		a.comEnd,
 		a.checkMode,
 		a.sysParam,
-		a.eSName,	
+		a.eSName,
 		a.eSRange,
 		a.eSWeight,
 		<!-- 公共部分 -->
@@ -44,21 +44,21 @@
 	<!-- get:根据id查询pad信息 -->
 	<select id="get" resultType="ElectronSteelyard">
 		select
-			<include refid="eColumns"></include>
+		<include refid="eColumns"></include>
 		from bas_electronsteelyard a
-			<include refid="eJoins"></include>
+		<include refid="eJoins"></include>
 		where a.id=#{id}
 	</select>
 	<!-- 根据条件查询 -->
 	<select id="findList" resultType="ElectronSteelyard">
 		select
-			<include refid="eColumns"></include>
+		<include refid="eColumns"></include>
 		from bas_electronsteelyard a
-			<include refid="eJoins"></include>			
+		<include refid="eJoins"></include>
 		where a.del_flag = #{DEL_FLAG_NORMAL}
 		<if test="type!= null and type != ''">
 			and a.type=#{type}
-		</if>	
+		</if>
 		<if test="spec != null and spec != ''">
 			and a.spec=#{spec}
 		</if>
@@ -70,13 +70,13 @@
 	<!-- 查询所有pad -->
 	<select id="findAllList">
 		select
-			<include refid="eColumns"></include>
+		<include refid="eColumns"></include>
 		from bas_electronsteelyard a
-			<include refid="eJoins"></include>			
+		<include refid="eJoins"></include>
 		where a.del_flag = #{DEL_FLAG_NORMAL}
 		order by a.type,a.spec,a.update_date desc
 	</select>
-	
+
 	<!-- 添加 -->
 	<insert id="insert">
 		insert into bas_electronsteelyard(
@@ -108,7 +108,7 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag,
+			del_flag
 		)values(
 			#{id},
 			#{qrCode},
@@ -174,7 +174,7 @@
 	</update>
 	<!-- 删除 -->
 	<update id="delete">
-	update bas_electronsteelyard set 
+	update bas_electronsteelyard set
 		del_flag=#{DEL_FLAG_DELETE}
 	where id=#{id}
 	</update>
