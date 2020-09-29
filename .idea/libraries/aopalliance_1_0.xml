@@ -1,0 +1,39 @@
+<component name="libraryTable">
+  <library name="aopalliance-1.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/aopalliance-1.0.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/aspectjrt-1.6.11.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/aspectjweaver-1.7.3.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/commons-collections-3.2.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/commons-dbcp-1.4.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/commons-dbutils-1.6.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/commons-fileupload-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/commons-io-2.0.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/commons-lang3-3.5.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/commons-net-3.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/commons-pool-1.5.4.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/guava-20.0.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/hashids-1.0.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/jackson-core-asl-1.9.12.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/jackson-mapper-asl-1.9.12.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/joda-time-2.3.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/json-20160810.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/mysql-connector-java-5.1.6.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/spring-aop-4.0.0.RELEASE.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/spring-beans-4.0.0.RELEASE.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/spring-context-4.0.0.RELEASE.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/spring-core-4.0.0.RELEASE.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/spring-expression-4.0.0.RELEASE.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/spring-jdbc-4.0.0.RELEASE.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/spring-oxm-4.0.0.RELEASE.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/spring-test-4.0.0.RELEASE.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/spring-tx-4.0.0.RELEASE.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/spring-web-4.0.0.RELEASE.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/spring-webmvc-4.0.0.RELEASE.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/专业技能实训/系统框架JAR/lib/tomcat-servlet-api-7.0.64.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

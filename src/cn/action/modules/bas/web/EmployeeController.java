@@ -41,8 +41,18 @@ public class EmployeeController extends BaseController{
 	//保存
 	@RequestMapping(value="save")
 	public String save(Employee employee, Model model, RedirectAttributes redirectAttributes) {
-		employeeService.save(employee);
-		this.addMessage(redirectAttributes, "保存员工信息成功");
+		try{
+			Employee empl = employeeService.get(employee.getEmployeeNo());
+			if(empl == null){
+				this.addMessage(redirectAttributes, "保存员工信息失败,请检查员工号是否正确");
+			}
+			else {
+				employeeService.save(employee);
+				this.addMessage(redirectAttributes, "保存员工信息成功");
+			}
+		}catch (Exception e ) {
+			e.printStackTrace();
+		}
 		return "redirect:"+adminPath+"/bas/employee";
 	}
 	//删除

@@ -45,21 +45,21 @@
 	<!-- get:根据id查询pad信息 -->
 	<select id="get" resultType="AndroidPAD">
 		select
-			<include refid="padColumns"></include>
+		<include refid="padColumns"></include>
 		from bas_pad a
-			<include refid="padJoins"></include>
+		<include refid="padJoins"></include>
 		where a.id=#{id}
 	</select>
 	<!-- 根据条件查询 -->
 	<select id="findList" resultType="AndroidPAD">
 		select
-			<include refid="padColumns"></include>
+		<include refid="padColumns"></include>
 		from bas_pad a
-			<include refid="padJoins"></include>			
+		<include refid="padJoins"></include>
 		where a.del_flag = #{DEL_FLAG_NORMAL}
 		<if test="type!= null and type != ''">
 			and a.type=#{type}
-		</if>	
+		</if>
 		<if test="spec != null and spec != ''">
 			and a.spec=#{spec}
 		</if>
@@ -71,22 +71,24 @@
 	<!-- 查询所有pad -->
 	<select id="findAllList">
 		select
-			<include refid="padColumns"></include>
+		<include refid="padColumns"></include>
 		from bas_pad a
-			<include refid="padJoins"></include>			
+		<include refid="padJoins"></include>
 		where a.del_flag = #{DEL_FLAG_NORMAL}
 		order by a.type,a.spec,a.update_date desc
 	</select>
 	<!-- 添加 -->
 	<insert id="insert">
 		insert into bas_pad(
+
+			id,
 			qrCode,
 			type,
 			spec,
 
 			cell_id,
 			station_id,
-			
+
 			supplier,
 			manufacturer,
 			factoryNumber,
@@ -110,8 +112,8 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag,
-			id
+			del_flag
+
 		)values(
 			#{id},
 			#{qrCode},
@@ -181,7 +183,7 @@
 	</update>
 	<!-- 删除 -->
 	<update id="delete">
-	update bas_pad set 
+	update bas_pad set
 		del_flag=#{DEL_FLAG_DELETE}
 	where id=#{id}
 	</update>

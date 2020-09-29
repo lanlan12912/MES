@@ -38,28 +38,28 @@ public class PerformTypeController extends BaseController{
 		return "modules/kpi/performTypeList";
 	}
 	
-	//è·³è½¬
+	//Ìø×ª
 	@RequestMapping(value = "form")
 	public String form(PerformType performType, Model model) {
 		model.addAttribute("performType", performType);
 		return "modules/kpi/performTypeForm";
 	}
 	
-	//ä¿å­˜
+	//±£´æ
 	@RequestMapping(value = "save")//@Valid 
 	public String save(PerformType performType, Model model, RedirectAttributes redirectAttributes) {
 		
 		performTypeService.save(performType);
-		addMessage(redirectAttributes, "ä¿å­˜ç»©æ•ˆå‚æ•°" + performType.getId()+ "æˆåŠŸï¼");
-		return "redirect:" + adminPath + "/kpi/performType/?repage&performTypeName="+performType.getPerformTypeName();
+		addMessage(redirectAttributes, "±£´æ¼¨Ğ§²ÎÊı³É¹¦£¡");
+		return "redirect:" + adminPath + "/kpi/performType";
 	}
 	
-	//åˆ é™¤
+	//É¾³ı
 	@RequestMapping(value = "delete")//@Valid 
 	public String delete(PerformType performType, Model model, RedirectAttributes redirectAttributes) {
 		
-		performTypeService.save(performType);
-		addMessage(redirectAttributes, "åˆ é™¤ç»©æ•ˆå‚æ•°æˆåŠŸï¼");
-		return "redirect:" + adminPath + "/kpi/performType/?repage&performTypeName="+performType.getPerformTypeName();
+		performTypeService.delete(performType);
+		addMessage(redirectAttributes, "É¾³ı¼¨Ğ§²ÎÊı³É¹¦£¡");
+		return "redirect:" + adminPath + "/kpi/performType";
 	}
 }
