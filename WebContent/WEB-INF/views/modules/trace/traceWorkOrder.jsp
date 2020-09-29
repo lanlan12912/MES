@@ -18,7 +18,7 @@
 <body>
 	<!-- 1.tab -->
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/bas/records/">工作记录列表</a></li>
+		<li class="active"><a href="${ctx}/bas/records/">订单追溯列表</a></li>
 	</ul>
 	<!-- 2.查询 -->
 	<form:form id="searchForm" method="post" action="${ctx}/trace/traceWorkOrder/" modelAttribute="records" class="breadcrumb form-search">

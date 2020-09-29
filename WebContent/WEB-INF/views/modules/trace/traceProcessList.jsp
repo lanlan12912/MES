@@ -16,7 +16,7 @@
 <!--1.tab-->
 <ul class="nav nav-tabs">
     <li class="active">
-        <a href="${ctx}/trace/traceProcess">原材料追溯列表</a>
+        <a href="${ctx}/trace/traceProcess">生产流程追溯列表</a>
     </li>
 </ul>
 <!--2.查询-->
