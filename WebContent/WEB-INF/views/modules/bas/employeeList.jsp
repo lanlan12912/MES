@@ -29,7 +29,6 @@
 		<label>员工工号 ：</label><form:input path="employeeNo" htmlEscape="false" maxlength="50" class="input-medium"/>
 		&nbsp;<label>员工姓名 ：</label><form:input path="employeeName" htmlEscape="false" maxlength="50" class="input-medium"/>
 		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
-		<input id="" class="btn btn-primary" type="submit" value="批量删除"/>
 	</div>
 </form:form>
 <sys:message content="${message}"/>
