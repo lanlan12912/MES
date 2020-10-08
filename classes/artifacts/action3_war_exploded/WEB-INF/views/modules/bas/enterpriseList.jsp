@@ -11,8 +11,55 @@
 			$("#pageSize").val(s);
 			$("#searchForm").submit();
 		}
+		function Select() {
+			var name = document.getElementsByName("ids");
+			var sel = document.getElementById("selectAll");
+			for (var i = 0; i < name.length; i++) {
+				name[i].checked=true;
+			}
+			if(!sel.checked){
+				for (var i = 0; i < name.length; i++) {
+					name[i].checked=false;
+				}
+			}
+		}
+
+		/*添加删除选中栏*/
+		function del(){
+			//给删除选中按钮添加单击事件
+			document.getElementById("delAll").onclick = function(){
+				if(confirm("您确定要删除选中项目吗？")){
+					var flag=false;
+					var idAr=new Array();
+					var id='';
+					var name = document.getElementsByName("ids");
+					for (var i = 0; i < name.length; i++) {
+						if(name[i].checked){
+							flag=true;
+							break;
+						}
+					}
+					if(flag==false)
+						alert("当前未选中任何项目，请检查..");
+					else
+					{
+						for(var i=0;i<name.length;i++){
+							id=name[i].value;
+							if(name[i].checked){
+								idAr[i]=id;
+							}
+						}
+						window.location.href = "${ctx}/bas/enterprise/deleteList?idAr="+idAr;
+
+					}
+				}
+			}
+		}
+
 	</script>
 	</head>
+
+
 <body>
 	<!-- tab头部 有企业列表和企业添加 -->
 	<ul class="nav nav-tabs">
@@ -26,6 +73,9 @@
 		<label>企业名称：</label>
 		<form:input path="enterName" maxlength="50" class="input-medium" htmlEscape="false"/>
 		<input id="btnSubmit" type="submit" value="查询" class="btn btn-primary"/>
+		<button type="button" class="btn btn-primary" onclick="del()" id="delAll">批量删除</button>
+
+
 	</form:form>
 	
 	<sys:message content="${message}"/>
@@ -34,6 +84,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+				<th><input type="checkbox" name="selectAll" id="selectAll" onclick="Select()"/></th>
 				<th>企业名称</th>
 				<th>组织机构代码</th>
 				<th>企业层次</th>
@@ -50,6 +101,7 @@
 		<tbody>
 			<c:forEach items="${page.list}" var="enterprise">
 				<tr>
+					<td><input type="checkbox" name="ids" id="id" value="${enterprise.id}"/></td>
 					<td>${enterprise.enterName}</td>
 					<td>${enterprise.enterCode}</td>
 					<td>${enterprise.enterLevel}</td>
